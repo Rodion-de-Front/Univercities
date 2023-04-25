@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>React</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="container">
+
+    </div>
+        
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+
+      let json = localStorage.getItem('data');
+
+      let arr = JSON.parse(json);
+    
+      class Univer extends React.Component {
+
+        constructor(props) {
+
+            super(props);
+            this.state = {
+              universities: []
+            };
+            this.renderUniver = this.renderUniver.bind(this);
+
+        }
+
+        renderUniver(country) {
+
+        let url = "http://universities.hipolabs.com/search?country=" + country;
+
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', url, false);
+        xhr.send();
+
+        let data = JSON.parse(xhr.responseText);
+        console.log(data);
+
+        this.setState({
+          universities: data
+        });
+
+        //создаём предыдущий элемент
+        let previousElement = null;
+
+        // Получаем все элементы с классом "wrap"
+        let wrapElements = document.querySelectorAll('.wrap');
+
+        // Добавляем обработчик событий только к родительскому элементу
+        document.addEventListener('click', (event) => {
+          const target = event.target;
+          if (target.closest('.wrap')) {
+
+            // Сбрасываем стили предыдущего элемента
+            if (previousElement) {
+              previousElement.style.padding = '';
+              previousElement.style.border = '';
+            }
+
+            // Меняем стили текущего элемента при клике
+            target.closest('.wrap').style.padding = '10px';
+            target.closest('.wrap').style.border = '3px solid aliceblue';
+
+            // Сохраняем ссылку на текущий элемент как предыдущий
+            previousElement = target.closest('.wrap');
+
+          }
+        });
+
+        // Устанавливаем стили для всех элементов "wrap"
+        wrapElements.forEach(function(element) {
+          element.style.padding = '';
+          element.style.border = '';
+        });
+
+      }
+
+      addUniver() {
+
+        const target = event.target; 
+
+        let tmpl = target.closest('.universitie').innerHTML;
+
+        let key = target.closest('.u-name').textContent;
+
+        console.log(key);
+
+        if(target.classList.contains('check')) {
+
+          target.classList.remove('check');
+          target.src = 'img/plus.webp';
+          delete arr[key];
+
+          } else {
+
+            target.classList.add('check');
+            target.src = 'img/check.webp';
+            arr[key] = tmpl;
+
+        }
+
+        let dataJson = JSON.stringify(arr);
+
+        localStorage.setItem('data',dataJson);
+
+      }
+
+      renderSelected() {
+
+        
+
+      }
+
+      render() {
+        return (
+            <div class="main">
+
+                <div class="menu">
+                  <div class="head">Select Your University</div>
+                  <img class="bookmark" src="img/bookmark.webp" onClick={() => this.renderSelected()}/>
+                  
+                </div>
+
+                <div class="countries">
+
+                      <div class="wrap" id="Russian_Federation" onClick={() => this.renderUniver("Russian Federation")}>
+                        <img src="img/russia.webp" class="country-img"/>
+                        <div class="country">Russian Federation</div>
+                      </div>
+
+                      <div class="wrap" id="United_Kingdom" onClick={() => this.renderUniver("United Kingdom")}>
+                        <img src="img/united-kingdom.webp" class="country-img"/>
+                        <div class="country">United Kingdom</div>
+                      </div>
+
+                      <div class="wrap" id="China" onClick={() => this.renderUniver("China")}>
+                        <img src="img/china.webp" class="country-img"/>
+                        <div class="country">China</div>     
+                      </div>
+
+                      <div class="wrap" id="France" onClick={() => this.renderUniver("France")}>
+                        <img src="img/france.webp" class="country-img"/>
+                        <div class="country">France</div>
+                      </div>
+
+                      <div class="wrap" id="United_States" onClick={() => this.renderUniver("United States")}>
+                        <img src="img/united-states.webp" class="country-img"/>
+                        <div class="country">United States</div>
+                      </div>
+
+                      <div class="wrap" id="Canada" onClick={() => this.renderUniver("Canada")}>
+                        <img src="img/canada.webp" class="country-img"/>
+                        <div class="country">Canada</div>
+                      </div>
+
+                      <div class="wrap" id="Kazakhstan" onClick={() => this.renderUniver("Kazakhstan")}>
+                        <img src="img/kazakhstan.webp" class="country-img"/>
+                        <div class="country">Kazakhstan</div>
+                      </div>
+
+                      <div class="wrap" id="Italy" onClick={() => this.renderUniver("Italy")}>
+                        <img src="img/italy.webp" class="country-img"/>
+                        <div class="country">Italy</div>
+                      </div>
+
+                      <div class="wrap" id="Spain" onClick={() => this.renderUniver("Spain")}>
+                        <img src="img/spain.webp" class="country-img"/>
+                        <div class="country">Spain</div>
+                      </div>
+
+                      <div class="wrap" id="Israel" onClick={() => this.renderUniver("Israel")}>
+                        <img src="img/israel.webp" class="country-img"/>
+                        <div class="country">Israel</div>
+                      </div>
+
+                </div>
+
+                <div class="universities">
+                  {this.state.universities.map((university) => (
+                    <div class="universitie"key={university.name}>
+                      {arr[university.name] != null ? <h3 class="u-name">{university.name}<img class='plus check' src='img/check.webp' onClick={() => this.addUniver()}/></h3> : <h3 class="u-name">{university.name}<img class='plus' src='img/plus.webp' onClick={() => this.addUniver()}/></h3>}
+                      <p class="u-dom"><a class="key" href={university.web_pages} target="blank">{university.domains}</a></p>
+                    </div>
+                  ))}
+                </div>
+
+          </div>
+    );
+  }
+}
+
+
+      ReactDOM.createRoot(
+            document.getElementById("container")
+      )
+      .render(
+
+            <Univer/>
+
+        );
+
+     </script>
+</body>
+</html>

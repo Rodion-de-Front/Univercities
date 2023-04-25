@@ -1,0 +1,82 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: rgb(110, 110, 255);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.menu {
+    display: flex;
+    justify-content: center;
+}
+
+.head {
+    margin-top: 30px;
+    color: aliceblue;
+    font-size: 40px;
+}
+
+.bookmark {
+    width: 25px;
+    height: 25px;
+    margin-top: 30px;
+    cursor: pointer;
+}
+
+.countries {
+    text-align: center;
+}
+
+.wrap {
+    display: inline-block;
+    margin: 30px 40px 30px 40px;
+    cursor: pointer;
+}
+
+.country-img {
+    width: 180px;
+    height: 160px;
+}
+
+.country {
+    font-size: 17px;
+    color: aliceblue;
+}
+
+.universities {
+    text-align: center;
+    margin: 20px 100px 0 100px;
+    transition: 5s;
+}
+
+.universitie {
+    display: inline-block;
+    margin: 50px;
+}
+
+.u-name {
+    font-size: 16px;
+}
+
+.plus {
+    display: none;
+    cursor: pointer;
+    width: 15px;
+    height: 15px;
+}
+
+.universitie:hover .plus {
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.check {
+    display: inline-block;
+    margin-left: 10px;
+    width: 30px;
+    height: 30px;
+}
+
+.u-dom a {
+    color: aliceblue;
+}
